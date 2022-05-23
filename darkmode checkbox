@@ -1,0 +1,64 @@
+import React from 'react';
+import { useState, useEffect } from "react";
+
+
+function DarkMode() {
+
+  /**
+   * Determina si el checkbox debería estar checkeado basado en
+   * el contenido del localStorage
+   */
+   const [checked, setChecked] = useState(
+    localStorage.getItem("theme") === "dark" ? true : false
+  );
+
+  /**
+   * Cada vez que el estado checked cambie, actualiza la propiedad
+   * data-theme en el HTML para que use el tema que estamos almacenando
+   * en el localStorage
+   */
+  useEffect(() => {
+    document
+      .getElementsByTagName("HTML")[0]
+      .setAttribute("data-theme", localStorage.getItem("theme"));
+  }, [checked]);
+
+  /**
+   * Actualiza el estado checked y el contenido de nuestro objeto
+   * theme en el localStorage basados en el checkbox
+   */
+  const toggleThemeChange = () => {
+    if (checked === false) {
+      localStorage.setItem("theme", "dark");
+      setChecked(true);
+    } else {
+      localStorage.setItem("theme", "light");
+      setChecked(false);
+    }
+  };
+  
+ 
+  return (
+    <div className='dark-mode'>
+      <header className="App-header">
+        
+        <p className='text-light' >Click para cambiar el tema</p>
+        <label>
+          
+        <input
+            type="checkbox"
+            id='mode'
+            defaultChecked={checked}
+            onChange={() => toggleThemeChange()}
+          />
+          
+        </label>
+       
+        <br/>
+      </header>
+      
+  </div>
+  );
+}
+
+export default DarkMode;
